@@ -1,0 +1,170 @@
+#include <iostream>
+#include <iomanip>
+#include <stdlib.h>
+
+using namespace std;
+
+string matkul[7] = {"Komunikasi Data","Sistem Operasi","Bahasa Inggris","Struktur Data","Pemrograman","Komputer Grafis","Hardware/Sofware"};
+
+struct mahasiswa{
+	string nama;
+	int nim;
+	int kelas;
+	int nilai[7];
+	float jmlhnilai;
+};
+
+mahasiswa mhs;
+
+//Bubble Sorting
+void bubblesort(){
+	int k, j, temp;
+	string tempst;
+	for(k = 0; k < 7; k++){
+		for(j = 0; j < 7; j++){
+			if(mhs.nilai[j] > mhs.nilai[j+1]){
+				temp = mhs.nilai[j];
+				tempst = matkul[j];
+				mhs.nilai[j] = mhs.nilai[j+1];
+				matkul[j] = matkul[j+1];
+				mhs.nilai[j+1] = temp;
+				matkul[j+1] = tempst;
+			}
+		}
+	}
+}
+
+//Selection Sorting
+void selectionsort(){
+	int i, bt;
+	string tempst;
+	for(i = 0; i < 5-1; i++){
+		bt = i;
+		int temp;
+		for(int n = i+1; n < 5; n++){
+			if(mhs.nilai[n] > mhs.nilai[bt]){
+				bt = n;
+			}
+		}
+		temp = mhs.nilai[bt];
+		mhs.nilai[bt] = mhs.nilai[i];
+		mhs.nilai[i] = temp;
+		
+		tempst = matkul[bt];
+		matkul[bt] = matkul[i];
+		matkul[i] = tempst;
+	}
+}
+
+//Insertion Sorting
+void insertionsort(){
+	int i, k, tmp;
+	string tempst;
+	for(i = 0; i < 7; i++){
+		tmp = mhs.nilai[i];
+		tempst = matkul[i];
+		k =i-1;
+		while(mhs.nilai[k] > tmp && k >=0){
+			mhs.nilai[k+1] = mhs.nilai[k];
+			matkul[k+1] = matkul[k];
+			k--;
+		}
+		mhs.nilai[k+1] = tmp;
+		matkul[k+1] = tempst;
+	}
+}
+
+//Ipk
+void nilaiipk(){
+	float ipk;
+	ipk = mhs.jmlhnilai/7/25;
+	cout << "Nilai Ipk : " << ipk << endl;
+}
+
+//Hasil Sorting
+void hasilsort(){
+	for(int i =0; i < 7; i++){
+		cout << i+1 << " . " << " Nilai " << matkul[i] << " : " << mhs.nilai[i] << " \n";
+	}
+}
+
+int main(){
+	int m;
+	int corect;
+	cout << "Masukan Jumlah Mahasiswa Yang akan Di Inputkan: ";
+	cin >> m;
+	
+	system("cls");
+	
+	for(int i = 0; i < m; i++){
+		cout << "----------------------------"<<endl;
+		cout << "Masukan Data Mahasiswa ke-" << i+1 <<endl;
+		cout << "Nama  : ";
+		cin >> mhs.nama;
+		cout << "Nim   : ";
+		cin >> mhs.nim;
+		cout << "Kelas : ";
+		cin >> mhs.kelas;
+		mhs.jmlhnilai = 0;
+		
+		for(int i = 0; i < 7; i++){
+			cout << i+1 << ". Nilai Matkul " << matkul[i] << " : ";
+			cin >> mhs.nilai[i];
+			mhs.jmlhnilai += mhs.nilai[i];
+		}
+		
+		cout << "Menu" <<endl;
+		cout << "Pilihan" <<endl;
+		cout << "1. Nilai" <<endl;
+		cout << "2. Urutkan Nilai"<< endl;
+		cout << "3. Exit" <<endl;
+		
+		cout << "Nilai" <<endl;
+		switch (corect){
+			case 1: 
+			nilaisemua();
+			urutkannilai();
+			Exit();
+		}
+		
+		cout << "Urutkan Nilai: "<<endl;
+		cout << "1. Bubble Sorting: "<<endl;
+		cout << "2. Selection Sorting: "<<endl;
+		cout << "3. Insertion Sorting: "<<endl;
+		cout << "Jawab: ";
+		cin >> corect;
+		
+		cout << "============================="<<endl;
+		cout << "Mahasiswa : "<< endl;
+		cout << "Nama	: "<< mhs.nama <<endl;
+		cout << "Nim	: "<< mhs.nim <<endl;
+		cout << "Kelas  : "<< mhs.kelas << endl;
+		
+		cout << "Hasil Nilai"<<endl;
+		switch (corect){
+			case 1:
+			bubblesort();
+			hasilsort();
+			nilaiipk();
+			break;
+			
+			case 2:
+			selectionsort();
+			hasilsort();
+			nilaiipk();
+			break;
+			
+			case 3:
+			insertionsort();
+			hasilsort();
+			nilaiipk();
+			break;
+			
+			default:
+			break;
+		}
+	}
+	return 0;
+}
+
+
